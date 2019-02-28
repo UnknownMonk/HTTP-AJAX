@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FriendsList = ({ friends }) => {
+const FriendsList = ({ upDateItem, friends, deleteFriend }) => {
   return (
     <div style={friendsli}>
       {friends.map(friend => (
@@ -8,10 +8,24 @@ const FriendsList = ({ friends }) => {
           <h2>Name: {friend.name}</h2>
           <p>Age: {friend.age}</p>
           <p>Email: {friend.email}</p>
+          <button style={btn} onClick={() => deleteFriend(friend.id)}>
+            x
+          </button>
+          <button style={btn} onClick={() => upDateItem(friend)}>
+            update
+          </button>
         </div>
       ))}
     </div>
   );
+};
+
+const btn = {
+  margin: '3px',
+  backgroundColor: 'salmon',
+  borderStyle: 'none',
+  color: 'white',
+  cursor: 'pointer'
 };
 
 const friendsli = {

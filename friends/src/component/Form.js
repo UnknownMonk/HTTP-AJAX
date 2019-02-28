@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Form({ addItem, newFriend, handler }) {
+function Form({ handleSubmit, isUpdating, newFriend, handler }) {
   return (
     <>
-      <form style={form}>
+      <form onSubmit={handleSubmit} style={form}>
         <input
           style={input}
           placeholder="Name"
@@ -18,7 +18,7 @@ function Form({ addItem, newFriend, handler }) {
           name="age"
           value={newFriend.age}
           onChange={handler}
-          type="number"
+          type="text"
         />
         <input
           style={input}
@@ -28,8 +28,8 @@ function Form({ addItem, newFriend, handler }) {
           onChange={handler}
           type="text"
         />
-        <button style={button} type="submit" onClick={addItem}>
-          Add Friend
+        <button style={button} type="submit">
+          {isUpdating ? 'Update Friend' : 'Make A Friend'}
         </button>
       </form>
     </>

@@ -13,7 +13,8 @@ class App extends Component {
         name: '',
         age: '',
         email: ''
-      }
+      },
+      isUpdating: false
     };
   }
 
@@ -44,17 +45,68 @@ class App extends Component {
     const NewFriend = this.state.newFriend;
     axios
       .post('http://localhost:5000/friends', NewFriend)
-      .then(res => console.log(res.data))
+      .then(res =>
+        this.setState({
+          friends: res.data
+        })
+      )
       .catch(err => console.log(err));
+  };
+
+  deleteFriend = friendId => {
+    axios
+      .delete(`http://localhost:5000/friends/${friendId}`)
+      .then(res =>
+        this.setState({
+          friends: res.data
+        })
+      )
+      .catch(err => console.log(err));
+  };
+
+  upDateFriend = () => {
+    const NewFriend = this.state.newFriend;
+    const friendId = this.state.newFriend.id;
+
+    axios
+      .put(`http://localhost:5000/friends/${friendId}`, NewFriend)
+      .then(res =>
+        this.setState({
+          friends: res.data,
+          isUpdating: false
+        })
+      );
+  };
+
+  upDateItem = friend => {
+    this.setState({
+      newFriend: friend,
+      isUpdating: true
+    });
+  };
+  handleSubmit = e => {
+    e.preventDefault();
+    if (this.state.isUpdating) {
+      this.upDateFriend();
+    } else {
+      this.addItem();
+    }
   };
   render() {
     return (
       <div className="App">
-        <FriendsList friends={this.state.friends} />
+        <FriendsList
+          deleteFriend={this.deleteFriend}
+          friends={this.state.friends}
+          upDateItem={this.upDateItem}
+        />
         <Form
+          handleSubmit={this.handleSubmit}
           addItem={this.addItem}
           handler={this.handleChanges}
           newFriend={this.state.newFriend}
+          isUpdating={this.state.isUpdating}
+          updateFriend={this.updateFriend}
         />
       </div>
     );
