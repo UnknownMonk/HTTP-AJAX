@@ -73,7 +73,12 @@ class App extends Component {
       .then(res =>
         this.setState({
           friends: res.data,
-          isUpdating: false
+          isUpdating: false,
+          newFriend: {
+            name: '',
+            age: '',
+            email: ''
+          }
         })
       );
   };
